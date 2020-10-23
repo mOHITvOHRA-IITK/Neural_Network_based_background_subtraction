@@ -5,7 +5,7 @@ A sample of codes for neural network based human segmentation. The idea of this 
 
 
 # INTERFACE
-To up the interface, type in the terminal `cd /path/to/the/repository` and `python main_file.py`. The Current frame will be dispalyed with some virtual buttons as shown below.
+To up the interface, type in the terminal `cd /path/to/the/repository` and `python main.py`. The Current frame will be dispalyed with some virtual buttons as shown below.
 
 
 <p align="center">
@@ -14,8 +14,8 @@ To up the interface, type in the terminal `cd /path/to/the/repository` and `pyth
 
 Each Button has a specific function, for example, 
 1. `Ext` exit the code.
-2. `Bkg` to store the background image. It creates a new folder `</images/set{number}>` and save the current frame with name `bkg.png` in that folder after the default timer value of `5 secs`. The timer value can be changed by adding the argument `-b time` with the command `python main_file.py`.
-3. `Sav` save the current frame in the folder created by pressing the `Bkg` button with name `0.png`, `1.png`, etc. after the default timer value of `2 secs`. The timer value can be changed by adding the argument `-s time` with the command `python main_file.py`.
+2. `Bkg` to store the background image. It creates a new folder `</images/set{number}>` and save the current frame with name `bkg.png` in that folder after the default timer value of `5 secs`. The timer value can be changed by adding the argument `-b time` with the command `python main.py`.
+3. `Sav` save the current frame in the folder created by pressing the `Bkg` button with name `0.png`, `1.png`, etc. after the default timer value of `2 secs`. The timer value can be changed by adding the argument `-s time` with the command `python main.py`.
 
 
 
