@@ -31,3 +31,18 @@ def visualize_predictions_and_ground_truth(frame, background_frame, ground_truth
 	cv2.imshow('ground_truth', frame_with_gt)
 	cv2.imshow('predictions', frame_with_perdictions)
 	cv2.waitKey(0)
+
+
+
+def visualize_predictions(frame, background_frame, predictions, threshold, fps):
+
+
+	frame_with_perdictions = frame.copy()
+	frame_with_perdictions[predictions[0, 1,:,:] > threshold, :] = [255, 0, 0]
+	
+	frame_with_perdictions = write_data3(frame_with_perdictions, 'fps:' + str(int(fps)), 0.05, 0.74, 0.17, 0.10, 0.01, 0.07, 1, 2, (255, 0, 255))
+
+	# cv2.imshow('frame', frame)
+	cv2.imshow('background_frame', background_frame)
+	cv2.imshow('predictions', frame_with_perdictions)
+	cv2.waitKey(1)

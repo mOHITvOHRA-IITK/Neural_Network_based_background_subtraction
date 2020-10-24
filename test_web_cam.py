@@ -6,17 +6,16 @@ import torch.optim as optim
 import network
 import cv2
 import os
-
-from network_data_formation import generate_network_feed, convert_network_outputs_to_bounding_box, visualize_predicted_boxes
-
-
-
+from network_data_formation import data_processing, visualize_predictions
+from class_definations import write_data3
+import time
 
 
 
-use_GPU = 0
 
 
+
+use_GPU = 1
 
 
 net = network.Net()
@@ -28,7 +27,6 @@ if (use_GPU):
     net = torch.nn.DataParallel(net).cuda()
 else:
     device = torch.device('cpu')
-
 
 
 
@@ -49,11 +47,12 @@ if (os.path.isfile(weight_path)):
 
 else:
     print ("no saved weights")
+
+
     
 
 net.eval()
 torch.no_grad()
-
 
 
 cap = cv2.VideoCapture(0)
@@ -63,42 +62,68 @@ if not cap.isOpened():
 
 
 
+current_time = time.time()
+max_count_down = 5
+background_frame = None
+
+while (1):
+	_, img = cap.read()
+	real_img = cv2.flip(img, 1) 
+
+	x =  max_count_down - np.int(time.time() - current_time)
+	
+	if x > 0:
+		real_img = write_data3(real_img, 'Saving bkg in ' + str(x) + ' secs ', 0.0, 0.4, 1.0, 0.15, 0.04, 0.12, 2, 2, (255,255,255))
+	else:
+		background_frame = real_img.copy()
+		break;
+
+
+	cv2.imshow('real_img', real_img)
+	cv2.waitKey(1)
+
+cv2.destroyAllWindows()
+
+
+
 while(1):
 
 	timer = cv2.getTickCount()     # start the timer for the calculation of fps in function view_frame
     
-	_, img = cap.read()
-	real_img = cv2.flip(img, 1) 
+	_, frame = cap.read()
+	frame = cv2.flip(frame, 1) 
 	timer = cv2.getTickCount() 
 
-	image_list = []
-	img = cv2.resize(real_img, (320, 240))
-	img_array = np.array(img, np.float32) / 255.0
-	img_array = np.transpose(img_array, (2, 0, 1))
-	image_list.append(img_array)
 
-	selection_mask_box_param_list = []
-	selection_mask = np.ones(shape=[5, 30, 40], dtype=np.float32)
-	selection_mask_box_param_list.append(selection_mask)
+	image_list = []
+	background_list = []
+
+	frame_array, background_frame_array, _  = data_processing(frame, background_frame, frame)
+
+	frame_array = np.transpose(frame_array, (2, 0, 1))
+	image_list.append(frame_array)
+
+	background_frame_array = np.transpose(background_frame_array, (2, 0, 1))
+	background_list.append(background_frame_array)
+
+	
 
 
 	if (use_GPU):
-	    img_tensor = torch.from_numpy(np.array(image_list)).cuda()
-	    selection_mask_box_param_tensor = torch.from_numpy(np.array(selection_mask_box_param_list)).cuda()
+		image_tensor = torch.from_numpy(np.array(image_list)).cuda()
+		background_tensor = torch.from_numpy(np.array(background_list)).cuda()
 	else:
-	    img_tensor = torch.from_numpy(np.array(image_list)).cpu()
-	    selection_mask_box_param_tensor = torch.from_numpy(np.array(selection_mask_box_param_list)).cpu()
+		image_tensor = torch.from_numpy(np.array(image_list)).cpu()
+		background_tensor = torch.from_numpy(np.array(background_list)).cpu()
 
 
-	x_box_tensor = net.forward(img_tensor, selection_mask_box_param_tensor, 0.0)
+	predicted_tensor, predicted_prob_tensor = net.forward(image_tensor, background_tensor, 0.0)
 
-	predicted_param = x_box_tensor.cpu().detach().numpy()
-	predicted_box_param_wrt_image_space = convert_network_outputs_to_bounding_box(predicted_param[0,:,:,:])
 	
+	predicted_prob = predicted_prob_tensor.cpu().detach().numpy()
+	fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)  
 
-	fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)      
-
-	visualize_predicted_boxes(real_img, predicted_box_param_wrt_image_space, 2, fps)
+	visualize_predictions(frame, background_frame, predicted_prob, 0.95, fps)
 	
 
 

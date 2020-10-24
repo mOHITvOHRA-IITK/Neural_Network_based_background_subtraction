@@ -9,7 +9,7 @@ To up the interface, type in the terminal `cd /path/to/the/repository` and `pyth
 
 
 <p align="center">
-  <img src="/images/inference_image.png" />
+  <img src="/inference_image.png" />
 </p>
 
 Each Button has a specific function, for example, 
@@ -34,6 +34,16 @@ For training, use the command `python training.py` with optional arguments
 2. `-b `, batch size, default 2.
 
 
+
+# Webcam test
+
+For testing on webcam, use the command `python test_web_cam.py`.
+
+
+# To DO
+1. While generating the background image, remove some unwanted noise.
+2. Network modification.
+3. More data.
 
 
 
