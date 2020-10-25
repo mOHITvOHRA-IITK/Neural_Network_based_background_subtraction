@@ -36,7 +36,6 @@ For training, use the command `python training.py` with optional arguments
 
 
 # Webcam test
-
 For testing on webcam, use the command `python test_web_cam.py`.
 
 

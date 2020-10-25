@@ -64,36 +64,73 @@ if not cap.isOpened():
 
 current_time = time.time()
 max_count_down = 5
-background_frame = None
+
 
 while (1):
 	_, img = cap.read()
 	real_img = cv2.flip(img, 1) 
 
 	x =  max_count_down - np.int(time.time() - current_time)
-	
 	if x > 0:
-		real_img = write_data3(real_img, 'Saving bkg in ' + str(x) + ' secs ', 0.0, 0.4, 1.0, 0.15, 0.04, 0.12, 2, 2, (255,255,255))
+		real_img = write_data3(real_img, 'Saving bkg in ' + str(x) + ' secs ', 0.0, 0.4, 1.0, 0.15, 0.0, 0.12, 2, 2, (255,255,255))
 	else:
-		background_frame = real_img.copy()
 		break;
 
 
 	cv2.imshow('real_img', real_img)
 	cv2.waitKey(1)
 
+
+
 cv2.destroyAllWindows()
+# background_frame = cv2.fastNlMeansDenoisingColored(background_frame,None,10,10,7,21)
+
+
+
+
+
+
+
+
+current_time = time.time()
+background_frame = None
+background_frame_list = []
+
+while (1):
+	_, img = cap.read()
+	real_img = cv2.flip(img, 1) 
+	real_img2 = cv2.flip(img, 1) 
+
+	background_frame_list.append(real_img2)
+	x =  max_count_down - np.int(time.time() - current_time)
+	if x > 0:
+		real_img = write_data3(real_img, 'Updating ', 0.0, 0.4, 1.0, 0.15, 0.3, 0.12, 2, 2, (255,255,255))
+	else:
+		background_frame_array = np.array(background_frame_list)
+		background_frame = np.mean(background_frame_array, 0)
+		background_frame = np.array(background_frame, dtype=np.uint8)
+		break;
+
+
+	cv2.imshow('real_img', real_img)
+	cv2.waitKey(1)
+
+
+
+cv2.destroyAllWindows()
+# background_fram
 
 
 
 while(1):
 
-	timer = cv2.getTickCount()     # start the timer for the calculation of fps in function view_frame
+	
     
 	_, frame = cap.read()
 	frame = cv2.flip(frame, 1) 
 	timer = cv2.getTickCount() 
 
+	timer = cv2.getTickCount()     # start the timer for the calculation of fps in function view_frame
 
 	image_list = []
 	background_list = []
