@@ -15,7 +15,7 @@ import time
 
 
 
-use_GPU = 1
+use_GPU = 0
 
 
 net = network.Net()
