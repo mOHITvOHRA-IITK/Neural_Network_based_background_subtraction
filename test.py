@@ -143,7 +143,7 @@ for i in range(total_iterations):
 	predicted_prob = predicted_prob_tensor.cpu().detach().numpy()
 	ground_truth = label_tensor.cpu().detach().numpy()
 	
-	visualize_predictions_and_ground_truth(org_frame, background_frame, ground_truth, predicted_prob, 0.75)
+	visualize_predictions_and_ground_truth(org_frame, background_frame, ground_truth, predicted_prob, 0.95)
 
 
 

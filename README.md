@@ -1,7 +1,8 @@
-# Human Segmentation
+#  Neural Network based background subtraction
+
 
 **INTRODUCTION**
-A sample of codes for neural network based human segmentation. The idea of this repo is to compare two images i.e. one with person and background, and other image contains background only. Standard image subtraction based methods are very sensitive to lightning conditions, thus idea is to use neural network based comaprison of images for good performance.
+A sample of codes for neural network based background subtraction. The idea of this repo is to compare two images i.e. one with person and background, and other image contains background only. Standard image subtraction based methods are very sensitive to lightning conditions, thus idea is to use neural network based comaprison of images for good performance.
 
 
 **INTERFACE**

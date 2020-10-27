@@ -46,3 +46,24 @@ def visualize_predictions(frame, background_frame, predictions, threshold, fps):
 	cv2.imshow('background_frame', background_frame)
 	cv2.imshow('predictions', frame_with_perdictions)
 	cv2.waitKey(1)
+
+
+
+
+def visualize_playing_with_myself(frame, predictions, threshold):
+
+
+	org_frame = frame.copy()
+	flip_frame = cv2.flip(frame, 1) 
+
+
+
+	h,w = frame.shape[0:2]
+	mask = np.zeros(shape=[h,w], dtype=np.uint8)
+	mask[predictions[0, 1,:,:] > threshold] = 255
+	flip_mask = cv2.flip(mask, 1) 
+
+	org_frame[flip_mask > 0, :] = flip_frame[flip_mask > 0, :]	
+
+	cv2.imshow('play_with_myself_frame', org_frame)
+	cv2.waitKey(1)

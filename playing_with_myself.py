@@ -6,7 +6,7 @@ import torch.optim as optim
 import network
 import cv2
 import os
-from network_data_formation import data_processing, visualize_predictions
+from network_data_formation import data_processing, visualize_playing_with_myself
 from class_definations import write_data3
 import time
 
@@ -128,9 +128,7 @@ while(1):
     
 	_, frame = cap.read()
 	frame = cv2.flip(frame, 1) 
-	timer = cv2.getTickCount() 
 
-	timer = cv2.getTickCount()     # start the timer for the calculation of fps in function view_frame
 
 	image_list = []
 	background_list = []
@@ -158,9 +156,7 @@ while(1):
 
 	
 	predicted_prob = predicted_prob_tensor.cpu().detach().numpy()
-	fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)  
-
-	visualize_predictions(frame, background_frame, predicted_prob, 0.95, fps)
+	visualize_playing_with_myself(frame, predicted_prob, 0.95)
 	
 
 
