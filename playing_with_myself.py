@@ -62,6 +62,35 @@ if not cap.isOpened():
 
 
 
+
+global save_img
+
+save_img = False
+
+def get_mouse_click(event,x,y,flags,param):
+    global save_img
+    if event == cv2.EVENT_LBUTTONDOWN:
+        save_img = True
+
+
+
+cv2.namedWindow('play_with_myself_frame')
+cv2.setMouseCallback('play_with_myself_frame', get_mouse_click)
+
+
+while (1):
+	_, img = cap.read()
+	real_img = cv2.flip(img, 1) 
+
+	if save_img:
+		break
+
+	cv2.imshow('play_with_myself_frame', real_img)
+	cv2.waitKey(1)
+
+
+
+
 current_time = time.time()
 max_count_down = 5
 
@@ -77,16 +106,8 @@ while (1):
 		break;
 
 
-	cv2.imshow('real_img', real_img)
+	cv2.imshow('play_with_myself_frame', real_img)
 	cv2.waitKey(1)
-
-
-
-cv2.destroyAllWindows()
-# background_frame = cv2.fastNlMeansDenoisingColored(background_frame,None,10,10,7,21)
-
-
-
 
 
 
@@ -112,13 +133,10 @@ while (1):
 		break;
 
 
-	cv2.imshow('real_img', real_img)
+	cv2.imshow('play_with_myself_frame', real_img)
 	cv2.waitKey(1)
 
 
-
-cv2.destroyAllWindows()
-# background_fram
 
 
 

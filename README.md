@@ -39,6 +39,11 @@ For training, use the command `python training.py` with optional arguments
 For testing on webcam, use the command `python test_web_cam.py`.
 
 
+
+**App1 Play with yourself**
+Bacground subtraction can be used for developing an application like creating a duplicate of the person in same frame, which I call as [playinh with yourself](https://www.youtube.com/watch?v=6LrQ_IjiZGY).
+To run the app1 type `python playing_with_myself.py` in the terminal. A screen will appear, by pressing left click on the frame, code will start learning the background frame and after updating the background frame, again press the left click on the frame, the difference will replicate in the current frame on opposite side.
+
 **To DO**
 1. While generating the background image, remove some unwanted noise.
 2. Network modification.

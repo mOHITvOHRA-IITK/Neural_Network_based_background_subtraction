@@ -3,6 +3,16 @@ import numpy as np
 from class_definations import write_data3
 
 
+global save_img
+
+save_img = False
+
+def get_mouse_click(event,x,y,flags,param):
+    global save_img
+    if event == cv2.EVENT_LBUTTONDOWN:
+        save_img = True
+
+
 
 def data_processing(frame, background_frame, mask):
 
@@ -53,6 +63,13 @@ def visualize_predictions(frame, background_frame, predictions, threshold, fps):
 def visualize_playing_with_myself(frame, predictions, threshold):
 
 
+	global save_img
+
+
+	cv2.namedWindow('play_with_myself_frame')
+	cv2.setMouseCallback('play_with_myself_frame', get_mouse_click)
+
+
 	org_frame = frame.copy()
 	flip_frame = cv2.flip(frame, 1) 
 
@@ -63,7 +80,14 @@ def visualize_playing_with_myself(frame, predictions, threshold):
 	mask[predictions[0, 1,:,:] > threshold] = 255
 	flip_mask = cv2.flip(mask, 1) 
 
-	org_frame[flip_mask > 0, :] = flip_frame[flip_mask > 0, :]	
+	
+
+	if save_img:
+		org_frame[flip_mask > 0, :] = flip_frame[flip_mask > 0, :]	
+		# cv2.imwrite('/home/mohit/Neural_Network_based_background_subtraction/org_frame.png', org_frame)
+		# save_img = False
 
 	cv2.imshow('play_with_myself_frame', org_frame)
-	cv2.waitKey(1)
+	cv2.waitKey(10)
+
+	
